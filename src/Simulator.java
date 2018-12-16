@@ -7,7 +7,6 @@ public class Simulator extends JFrame{
     private JButton createButton;
     private JPanel panel;
 
-
     public Simulator() {
 
         // Initiate main frame
@@ -44,6 +43,7 @@ public class Simulator extends JFrame{
     }
 
     public static void main(String[] args) {
-        new Simulator();
+        // new Simulator();
+        new NewUser("Thanh");
     }
 }
