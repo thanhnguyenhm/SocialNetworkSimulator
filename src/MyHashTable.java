@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MyHashTable<T> {
     ArrayList<MyLinkedList> array; // a list of m slots, each slot has a MyLinkedList object
@@ -60,5 +61,13 @@ public class MyHashTable<T> {
             out += elem.toString();
         }
         return out;
+    }
+
+    public Object[] toArray() {
+        String out = "";
+        for (MyLinkedList elem : array) {
+            out += elem.toString();
+        }
+        return new ArrayList(Arrays.asList(out.split("\n"))).toArray();
     }
 }

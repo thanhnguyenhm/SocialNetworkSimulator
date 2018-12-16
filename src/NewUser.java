@@ -19,6 +19,8 @@ public class NewUser extends JFrame {
     private JButton removeButton;
     private JButton showButton;
     private JButton showAllButton;
+    private JButton searchButton;
+    private JButton checkButton;
     private JTextArea viewArea;
     private JScrollPane scroller;
 
@@ -48,12 +50,16 @@ public class NewUser extends JFrame {
         removeButton = new JButton("Unfriend");
         showButton = new JButton("Show my friend list");
         showAllButton = new JButton("Show all accounts");
+        searchButton = new JButton("Search Friend List");
+        checkButton = new JButton("Check Friendship");
         top.add(createButton);
         top.add(generateButton);
         top.add(addButton);
         top.add(removeButton);
         top.add(showButton);
         top.add(showAllButton);
+        top.add(searchButton);
+        top.add(checkButton);
 
         // Declare GUI components in center panel
         center.setLayout(new GridLayout());
@@ -100,9 +106,11 @@ public class NewUser extends JFrame {
                 allUser.chainedHashInsert(new Person(i));
             }
             isAdded = true;
+            addRandomPersonToFriendList();
             printListOfUser();
         });
 
+        // Add action listener for method when user account add a friend
         addButton.addActionListener(e -> {
             String result = JOptionPane.showInputDialog(userFrame, "Enter a username you want to add friend: ");
             if ((result != null) && (result.length() > 0)) {
@@ -113,20 +121,21 @@ public class NewUser extends JFrame {
                 }
                 if (allUser.isContain(result)) {
                     JOptionPane.showMessageDialog(userFrame, "User " + result + " has been added to your friend list!");
-                    // TODO use hashtable to search, insert, delete instead of myLinkedList
                     user.getFriendList().listInsert(allUser.chainedHashSearch(result));
+                    allUser.chainedHashSearch(result).getFriendList().listInsert(user); // reverse order
                 } else
                     JOptionPane.showMessageDialog(userFrame, result + " is not on the system. Please try add that user first.");
             }
         });
 
+        // Action listener for method when user removes a friend
         removeButton.addActionListener(e -> {
             String result = JOptionPane.showInputDialog(userFrame, "Enter a username you want to unfriend: ");
             if ((result != null) && (result.length() > 0)) {
                 if (user.getFriendList().isContain(result))  {
                     JOptionPane.showMessageDialog(userFrame, "You have unfriended " + result);
-                    // TODO use hashtable to search, insert, delete instead of myLinkedList
                     user.getFriendList().listDelete(result);
+                    allUser.chainedHashSearch(result).getFriendList().listDelete(user.getName());
                 }
                 else JOptionPane.showMessageDialog(userFrame, result + " is not on your friend list nor on the system. Failed to unfriend.");
 
@@ -140,6 +149,24 @@ public class NewUser extends JFrame {
         showAllButton.addActionListener(e -> {
             printListOfUser();
         });
+
+        // Add action listener for Search friend list of any User Account
+        searchButton.addActionListener(e -> {
+            Object[] oArray = allUser.toArray();
+            String result = (String)JOptionPane.showInputDialog(userFrame,
+                    "See friend list of user account:  ", "See Friend List", JOptionPane.PLAIN_MESSAGE, new ImageIcon(), oArray, oArray[0]);
+
+            viewArea.setText("Here's friend list of " + result + ":\n\n" + allUser.chainedHashSearch(result).getFriendList().toString());
+        });
+
+        // Add action listener for Check friendship of any two user accounts
+        checkButton.addActionListener(e -> {
+            Object[] oArray = allUser.toArray();
+            String result = (String)JOptionPane.showInputDialog(userFrame,
+                    "See friend list of user account:  ", "See Friend List", JOptionPane.PLAIN_MESSAGE, new ImageIcon(), oArray, oArray[0]);
+
+            viewArea.setText("Here's friend list of " + result + ":\n\n" + allUser.chainedHashSearch(result).getFriendList().toString());
+        });
     }
 
     /**
@@ -147,5 +174,32 @@ public class NewUser extends JFrame {
      */
     public void printListOfUser() {
         viewArea.setText("Here're all the accounts on the system: \n\n" + allUser.toString());
+    }
+
+    /**
+     * Update their friend lists when two people become friends.
+     * @param user1
+     * @param user2
+     */
+    private void createFriendship(String user1, String user2) {
+        allUser.chainedHashSearch(user1).getFriendList().listInsert(allUser.chainedHashSearch(user2));
+        allUser.chainedHashSearch(user2).getFriendList().listInsert(allUser.chainedHashSearch(user1));
+    }
+
+    /**
+     * Helper Method. Add some friends to friend list of other user accounts
+     */
+    private void addRandomPersonToFriendList() {
+        createFriendship("Penny", "Sheldon Cooper");
+        createFriendship("Penny", "Leonard Hofstadter");
+        createFriendship("Leonard Hofstadter", "Sheldon Cooper");
+        createFriendship("Leonard Hofstadter", "Howard Wolowitz");
+        createFriendship("Howard Wolowitz", "Bernadette Rostenkowski");
+        createFriendship("Raj Koothrappali", "Howard Wolowitz");
+        createFriendship("Amy Farrah Fowler", "Sheldon Cooper");
+        createFriendship("Amy Farrah Fowler", "Penny");
+        createFriendship("Amy Farrah Fowler", "Bernadette Rostenkowski");
+        createFriendship("Joey Nguyen", "Thanh Pham");
+        createFriendship("Lana Del Rey", "Thanh Pham");
     }
 }
