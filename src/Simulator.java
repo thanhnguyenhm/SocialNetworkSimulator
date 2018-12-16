@@ -43,7 +43,7 @@ public class Simulator extends JFrame{
     }
 
     public static void main(String[] args) {
-        // new Simulator();
-        new NewUser("Thanh");
+        new Simulator();
+        // new NewUser("Thanh");
     }
 }

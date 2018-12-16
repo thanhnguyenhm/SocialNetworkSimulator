@@ -1,5 +1,3 @@
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_COLOR_BURNPeer;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -162,10 +160,16 @@ public class NewUser extends JFrame {
         // Add action listener for Check friendship of any two user accounts
         checkButton.addActionListener(e -> {
             Object[] oArray = allUser.toArray();
-            String result = (String)JOptionPane.showInputDialog(userFrame,
-                    "See friend list of user account:  ", "See Friend List", JOptionPane.PLAIN_MESSAGE, new ImageIcon(), oArray, oArray[0]);
+            String user1 = (String)JOptionPane.showInputDialog(userFrame,
+                    "Choose first user account:  ", "Check Friendship", JOptionPane.PLAIN_MESSAGE, new ImageIcon(), oArray, oArray[0]);
+            String user2 = (String)JOptionPane.showInputDialog(userFrame,
+                    "Choose second user account:  ", "Check Friendship", JOptionPane.PLAIN_MESSAGE, new ImageIcon(), oArray, oArray[0]);
 
-            viewArea.setText("Here's friend list of " + result + ":\n\n" + allUser.chainedHashSearch(result).getFriendList().toString());
+            if (user1.equals(user2))
+                JOptionPane.showMessageDialog(userFrame, "They are the same person.");
+            else if (allUser.chainedHashSearch(user1).getFriendList().isContain(user2)) JOptionPane.showMessageDialog(userFrame, "They are friends.");
+            else
+                JOptionPane.showMessageDialog(userFrame, "They are not friends.");
         });
     }
 
