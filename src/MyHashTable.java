@@ -8,7 +8,7 @@ public class MyHashTable<T> {
         array = new ArrayList<>();
         m = 10;
         for (int i = 0; i < m; i++)
-            array.add(null);
+            array.add(new MyLinkedList());
     }
 
     public void chainedHashInsert(Person person) {
@@ -17,12 +17,17 @@ public class MyHashTable<T> {
         array.get(key).listInsert(person);
     }
 
-    public Person chainedHashSearch(Person person) {
-        return (Person) array.get(getHashCode(person)).listSearch(person.toString());
+    public Person chainedHashSearch(String name) {
+        return (Person) array.get(getHashCode(name)).listSearch(name);
     }
 
     public void chainedHashDelete(Person person) {
         array.get(getHashCode(person)).listDelete(person.getName());
+    }
+
+    public boolean isContain(String name) {
+        if (chainedHashSearch(name) == null) return false;
+        else return true;
     }
 
     /**
@@ -32,26 +37,28 @@ public class MyHashTable<T> {
      * @return hash code
      */
     private int getHashCode(Person person) {
-        // convert name as String to ascii number
-        StringBuilder strBuilder = new StringBuilder();
-        for (int i = 0; i < person.getName().length(); i++) {
-            strBuilder.append((int) person.getName().charAt(i));
-        }
-        return (Integer.parseInt(strBuilder.toString()) % (m));
+        return getHashCode(person.getName());
     }
 
-//    /**
-//     * Inner class HashNode
-//     * Each HashNode has Person object as key and MyLinkedList as value
-//     */
-//    public class HashNode {
-//        int key;
-//        Person value;
-//        HashNode next;
-//
-//        public HashNode(int key, Person value) {
-//            this.key = key;
-//            this.value = value;
-//        }
-//    }
+    private int getHashCode(String name) {
+        // convert name as String to ascii number
+        StringBuilder strBuilder = new StringBuilder();
+        int maxChar; // only use first 5 letter for hash function
+        if (name.length() > 5) maxChar = 5;
+        else maxChar = name.length();
+
+        for (int i = 0; i < maxChar; i++) {
+            if (name.charAt(i) == ' ') break;
+            strBuilder.append((int) name.charAt(i));
+        }
+        return (int)(Long.parseLong(strBuilder.toString()) % m);
+    }
+
+    public String toString() {
+        String out = "";
+        for (MyLinkedList elem : array) {
+            out += elem.toString();
+        }
+        return out;
+    }
 }

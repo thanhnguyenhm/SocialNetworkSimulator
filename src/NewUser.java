@@ -6,7 +6,7 @@ import java.awt.*;
 public class NewUser extends JFrame {
 
     // Declare an Linked List for all user accounts in the system
-    MyLinkedList<Person> allUser;
+    MyHashTable<Person> allUser;
     boolean isAdded = false;
 
     // Declare GUI Components
@@ -18,6 +18,7 @@ public class NewUser extends JFrame {
     private JButton addButton;
     private JButton removeButton;
     private JButton showButton;
+    private JButton showAllButton;
     private JTextArea viewArea;
     private JScrollPane scroller;
 
@@ -30,8 +31,8 @@ public class NewUser extends JFrame {
         Person user = new Person(name);
 
         // Create a LinkedList of all user accounts in the system and add the current user
-        allUser = new MyLinkedList<>();
-        allUser.listInsert(user);
+        allUser = new MyHashTable<>();
+        allUser.chainedHashInsert(user);
 
         // Declare layout with 3 panels
         top = new JPanel();
@@ -46,11 +47,13 @@ public class NewUser extends JFrame {
         addButton = new JButton("Add friend");
         removeButton = new JButton("Unfriend");
         showButton = new JButton("Show my friend list");
+        showAllButton = new JButton("Show all accounts");
         top.add(createButton);
         top.add(generateButton);
         top.add(addButton);
         top.add(removeButton);
         top.add(showButton);
+        top.add(showAllButton);
 
         // Declare GUI components in center panel
         center.setLayout(new GridLayout());
@@ -79,7 +82,7 @@ public class NewUser extends JFrame {
             if ((result != null) && (result.length() > 0)) {
                 JOptionPane.showMessageDialog(userFrame, "User " + result + " has been added to the system!");
                 Person newUser = new Person(result);
-                allUser.listInsert(newUser);
+                allUser.chainedHashInsert(newUser);
                 printListOfUser();
             }
         });
@@ -94,7 +97,7 @@ public class NewUser extends JFrame {
             String[] listOfRandom30Names = {"Sheldon Cooper", "Leonard Hofstadter", "Penny", "Howard Wolowitz", "Raj Koothrappali", "Amy Farrah Fowler", "Bernadette Rostenkowski", "Stuart Bloom", "Beverly Hofstadter", "Mary Cooper",
             "George Cooper", "George Cooper Jr", "Missy Cooper", "Leslie Winkle", "Emily Sweeney", "Priya Koothrappali", "Wil Wheaton", "Barry Kripke", "Stephanie Barnett", "Zack Johnson", "Eric Gablehauser", "Janine Davis", "Bert Kibbler", "Alfred Hofstadter", "Colonel Richard Williams", "Joey Nguyen", "Thanh Pham", "Larry Fowler", "Lana Del Rey", "Rinko Kikuchi"};
             for (String i : listOfRandom30Names) {
-                allUser.listInsert(new Person(i));
+                allUser.chainedHashInsert(new Person(i));
             }
             isAdded = true;
             printListOfUser();
@@ -111,7 +114,7 @@ public class NewUser extends JFrame {
                 if (allUser.isContain(result)) {
                     JOptionPane.showMessageDialog(userFrame, "User " + result + " has been added to your friend list!");
                     // TODO use hashtable to search, insert, delete instead of myLinkedList
-                    user.getFriendList().listInsert(allUser.listSearch(result));
+                    user.getFriendList().listInsert(allUser.chainedHashSearch(result));
                 } else
                     JOptionPane.showMessageDialog(userFrame, result + " is not on the system. Please try add that user first.");
             }
@@ -132,6 +135,10 @@ public class NewUser extends JFrame {
 
         showButton.addActionListener(e -> {
             viewArea.setText("Here's your friend list: \n\n" + user.getFriendList().toString());
+        });
+
+        showAllButton.addActionListener(e -> {
+            printListOfUser();
         });
     }
 
