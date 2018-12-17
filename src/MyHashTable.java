@@ -1,6 +1,11 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Hash Table implementation based on CLRS's algorithms
+ * @param <T> generics type
+ * @author thanhnguyen
+ */
 public class MyHashTable<T> {
     ArrayList<MyLinkedList> array; // a list of m slots, each slot has a MyLinkedList object
     private static int m; // number of slots in the hash table
@@ -26,6 +31,11 @@ public class MyHashTable<T> {
         array.get(getHashCode(person)).listDelete(person.getName());
     }
 
+    /**
+     * Check whether a username has been in the hash table
+     * @param name that need to check
+     * @return true if list contains name
+     */
     public boolean isContain(String name) {
         if (chainedHashSearch(name) == null) return false;
         else return true;
@@ -41,6 +51,12 @@ public class MyHashTable<T> {
         return getHashCode(person.getName());
     }
 
+    /**
+     * Convert String to its ascii integer
+     * hash function use division method
+     * @param name
+     * @return hash code
+     */
     private int getHashCode(String name) {
         // convert name as String to ascii number
         StringBuilder strBuilder = new StringBuilder();
@@ -63,6 +79,10 @@ public class MyHashTable<T> {
         return out;
     }
 
+    /**
+     * Convert all Person objects in Hash Table to an array
+     * @return Object[] representation of all elements in Hash Table
+     */
     public Object[] toArray() {
         String out = "";
         for (MyLinkedList elem : array) {

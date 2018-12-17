@@ -1,18 +1,29 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Create initial GUI frame to prompt user their full name
+ * main class
+ * @author thanhnguyen
+ */
 public class Simulator extends JFrame{
 
     // Declare GUI elements
     private JButton createButton;
     private JPanel panel;
 
+    /**
+     * Default constructor
+     */
     public Simulator() {
 
         // Initiate main frame
         createMainFrame();
     }
 
+    /**
+     * Set up initial frame
+     */
     private void createMainFrame() {
         // Set up GUI components
         createButton = new JButton("Create a new account");
@@ -23,7 +34,7 @@ public class Simulator extends JFrame{
         panel.add(createButton);
 
         // Set up frames
-        JFrame mainFrame = new JFrame("FB Simulator 1.0");
+        JFrame mainFrame = new JFrame("Social Network Simulator 1.0");
         mainFrame.add(panel);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(400, 100);

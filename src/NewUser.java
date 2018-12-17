@@ -1,6 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * GUI Central frame. All operations and activities take place here
+ * Set up all GUI components that allow user to interact with the program
+ * @author thanhnguyen
+ */
 public class NewUser extends JFrame {
 
     // Declare an Linked List for all user accounts in the system
@@ -22,15 +27,19 @@ public class NewUser extends JFrame {
     private JTextArea viewArea;
     private JScrollPane scroller;
 
+    /**
+     * Constructor that takes String name parameter as main user account
+     * @param name: main user account
+     */
     public NewUser(String name) {
 
         String title = "Account: " + name;
         JFrame userFrame = new JFrame(title);
 
-        // Create a Person object for the user
+        // Create a Person object for main user
         Person user = new Person(name);
 
-        // Create a LinkedList of all user accounts in the system and add the current user
+        // Create a HashTable of all user accounts in the system and add the current user
         allUser = new MyHashTable<>();
         allUser.chainedHashInsert(user);
 
@@ -162,9 +171,10 @@ public class NewUser extends JFrame {
             Object[] oArray = allUser.toArray();
             String user1 = (String)JOptionPane.showInputDialog(userFrame,
                     "Choose first user account:  ", "Check Friendship", JOptionPane.PLAIN_MESSAGE, new ImageIcon(), oArray, oArray[0]);
+            if (user1 == null) return;
             String user2 = (String)JOptionPane.showInputDialog(userFrame,
                     "Choose second user account:  ", "Check Friendship", JOptionPane.PLAIN_MESSAGE, new ImageIcon(), oArray, oArray[0]);
-
+            if (user2 == null) return;
             if (user1.equals(user2))
                 JOptionPane.showMessageDialog(userFrame, "They are the same person.");
             else if (allUser.chainedHashSearch(user1).getFriendList().isContain(user2)) JOptionPane.showMessageDialog(userFrame, "They are friends.");
@@ -204,6 +214,11 @@ public class NewUser extends JFrame {
         createFriendship("Amy Farrah Fowler", "Penny");
         createFriendship("Amy Farrah Fowler", "Bernadette Rostenkowski");
         createFriendship("Joey Nguyen", "Thanh Pham");
-        createFriendship("Lana Del Rey", "Thanh Pham");
+        createFriendship("Colonel Richard Williams", "Sheldon Cooper");
+        createFriendship("Lana Del Rey", "Colonel Richard Williams");
+        createFriendship("Lana Del Rey", "Janine Davis");
+        createFriendship("Janine Davis", "Colonel Richard Williams");
+        createFriendship("Janine Davis", "Penny");
+        createFriendship("Wil Wheaton", "Leonard Hofstadter");
     }
 }

@@ -1,6 +1,7 @@
 /**
  * Person class for an user account
  * Each user account has a name and a list of their friends
+ * @author thanhnguyen
  */
 public class Person {
     // Declare instance fields

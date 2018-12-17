@@ -1,6 +1,7 @@
 /**
  * Customized Linked List implementation based on CLRS's algorithms
- * @param <T>
+ * @param <T> generics type
+ * @author thanhnguyen
  */
 public class MyLinkedList<T> {
 
@@ -43,6 +44,11 @@ public class MyLinkedList<T> {
             x.next.prev = x.prev;
     }
 
+    /**
+     * Check whether a username has been in the list
+     * @param name that need to check
+     * @return true if list contains name
+     */
     public boolean isContain(String name) {
         if (listSearch(name) == null) return false;
         else return true;
