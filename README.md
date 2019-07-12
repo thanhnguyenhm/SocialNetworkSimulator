@@ -2,7 +2,7 @@
 
 Java implementation of Hash Table, Linked List
 
-Programming Assignment for Data Structure and Algorithms class
+Individual Programming Assignment for Data Structure and Algorithms class
 
 This programming assignment simulates a micro-version of a social networking 
 site using Hashing with Chaining and Division method for Hash function. Operations such as: insertion, deletion and search are supported and written in Java based on Linked List and Hash Table’s algorithms from “Introduction to Algorithms”, Cormen et al (CLRS).
